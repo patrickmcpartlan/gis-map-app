@@ -5,7 +5,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 // Import routes
-const apiRoutes = require('./routes/api');
+const authRoutes = require('./routes/authRoutes');
+const featuresRoutes = require('./routes/featuresRoutes');
 
 // Initialize express app
 const app = express();
@@ -17,10 +18,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files
+app.use(express.static(path.join(__dirname, '../public/dist')));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // API routes
-app.use('/api', apiRoutes);
+app.use('/auth', authRoutes);
+app.use('/api/features', featuresRoutes);
 
 // Serve the main HTML file for all other routes
 app.get('*', (req, res) => {
